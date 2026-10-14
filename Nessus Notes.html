@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nessus Notes</title>
+<style>
+:root{--bg:#000;--card:#0b1118;--blue:#7dd3fc;--blue2:#38bdf8;--text:#dbeafe;--mute:#93b4cc;--line:#16324a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth}
+body{margin:0;background:#000;color:var(--text);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 60px}
+header{border-bottom:2px solid var(--blue2);padding-bottom:16px;margin-bottom:20px}
+h1{color:var(--blue);font-size:2rem;margin:0 0 6px}
+header p{color:var(--mute);margin:0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 28px}
+nav a{color:var(--blue);border:1px solid var(--line);border-radius:20px;padding:4px 12px;text-decoration:none;font-size:.85rem}
+nav a:hover{background:var(--line)}
+section{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue2);border-radius:10px;padding:16px 20px;margin-bottom:20px}
+h2{color:var(--blue);margin:0 0 8px;font-size:1.35rem}
+h3{color:var(--blue2);margin:16px 0 4px;font-size:1.05rem}
+.tag{display:inline-block;font-size:.72rem;background:var(--blue2);color:#000;border-radius:4px;padding:1px 8px;margin-bottom:6px;font-weight:700}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:3px 0}
+b,strong{color:var(--blue)}
+code{background:#06202f;color:var(--blue);padding:1px 6px;border-radius:4px;font-size:.9em}
+.tip{background:#06202f;border:1px dashed var(--blue2);border-radius:8px;padding:10px 14px;margin:10px 0;color:var(--text)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#06202f;color:var(--blue)}
+.crit{color:#ff7b7b;font-weight:700}.high{color:#ffb070;font-weight:700}.med{color:#ffe27a;font-weight:700}.low{color:#8be28b;font-weight:700}.info{color:var(--blue);font-weight:700}
+header{position:relative}
+.corner{position:absolute;top:0;right:0;color:var(--blue);font-size:1.15rem;font-weight:600;border:1px solid var(--blue2);border-radius:20px;padding:3px 16px}
+h1{padding-right:110px}
+footer{text-align:center;color:var(--mute);font-size:.85rem;margin-top:30px}
+</style></head><body><div class="wrap">
+
+<header>
+<div class="corner">Nehal</div>
+<h1>🛡️ Nessus Notes</h1>
+<p>Simple words, easy for everyone.</p>
+</header>
+
+<nav>
+<a href="#what">1. What is Nessus</a><a href="#how">2. How it works</a><a href="#editions">3. Editions</a><a href="#install">4. Install &amp; first scan</a><a href="#scans">5. Scan types</a><a href="#sev">6. Severity</a><a href="#reports">7. Reading reports</a><a href="#adv">8. Advanced</a><a href="#bp">9. Best practices</a><a href="#cheat">10. Cheat sheet</a>
+</nav>
+
+<section id="what"><span class="tag">BASIC</span>
+<h2>1. What is Nessus?</h2>
+<p><b>Nessus</b> is a <b>vulnerability scanner</b> made by <b>Tenable</b>. Think of it like a <b>health check-up for computers and networks</b>. It looks for weak spots (vulnerabilities) that hackers could use.</p>
+<h3>Simple example</h3>
+<p>Your house has doors and windows. A scanner walks around and checks: "Is this window unlocked? Is this lock old?" Nessus does the same for servers, laptops, routers, and websites.</p>
+<h3>Key words to know</h3>
+<ul>
+<li><b>Vulnerability</b>: a weakness in software, settings, or hardware.</li>
+<li><b>Exploit</b>: a method that uses a vulnerability to attack.</li>
+<li><b>CVE</b>: a public ID for a known vulnerability (like <code>CVE-2021-44228</code> for Log4Shell).</li>
+<li><b>Patch</b>: a fix from the vendor.</li>
+<li><b>Target / Host</b>: the device being scanned.</li>
+<li><b>Plugin</b>: a small check (script) Nessus runs. Nessus has <b>100,000+</b> of them.</li>
+</ul>
+<div class="tip">💡 Nessus <b>finds</b> problems. It does <b>not</b> fix them and it is <b>not</b> a hacking tool by itself.</div>
+</section>
+
+<section id="how"><span class="tag">BASIC</span>
+<h2>2. How does Nessus work?</h2>
+<ol>
+<li><b>Discovery</b>: finds which devices are alive (ping, port checks).</li>
+<li><b>Port scanning</b>: checks which doors (ports) are open, like 22 (SSH), 80 (HTTP), 443 (HTTPS), 445 (SMB), 3389 (RDP).</li>
+<li><b>Service detection</b>: finds what software runs on each port and its version.</li>
+<li><b>Plugin checks</b>: compares what it found with its database of known problems.</li>
+<li><b>Report</b>: lists issues with severity, explanation, and fix advice.</li>
+</ol>
+<div class="tip">Plugins update often, so always update them <b>before</b> scanning.</div>
+</section>
+
+<section id="editions"><span class="tag">BASIC</span>
+<h2>3. Nessus versions</h2>
+<div class="tbl"><table>
+<tr><th>Version</th><th>Who uses it</th><th>Notes</th></tr>
+<tr><td>Nessus Essentials</td><td>Students, home labs</td><td>Free, limited to <b>16 IPs</b>. Best for learning.</td></tr>
+<tr><td>Nessus Professional</td><td>Pen testers, consultants</td><td>Paid, unlimited IPs, more features.</td></tr>
+<tr><td>Tenable.io / Tenable Security Center</td><td>Big companies</td><td>Cloud or enterprise management, many scanners, dashboards.</td></tr>
+</table></div>
+<p>Nessus also had an Expert edition (adds web app and cloud scanning). Features and pricing change, so check Tenable's site.</p>
+</section>
+
+<section id="install"><span class="tag">BASIC</span>
+<h2>4. Install and run your first scan</h2>
+<ol>
+<li>Download Nessus from the Tenable website and get a free <b>activation code</b> (Essentials).</li>
+<li>Install it (Windows, Linux, or macOS).</li>
+<li>Open the browser: <code>https://localhost:8834</code> (the default port is <b>8834</b>).</li>
+<li>Accept the certificate warning (it is a self-signed certificate, normal for local use).</li>
+<li>Enter the activation code, create a username and password. Nessus downloads plugins (takes some time).</li>
+<li>Click <b>New Scan</b> → choose a template → give a name and target (IP or range like <code>192.168.1.0/24</code>) → <b>Save</b> → <b>Launch</b>.</li>
+</ol>
+<div class="tip">⚠️ <b>Only scan systems you own or have written permission to scan.</b> Scanning others without permission is illegal. For practice, use your own lab (VirtualBox, Metasploitable, DVWA).</div>
+</section>
+
+<section id="scans"><span class="tag">INTERMEDIATE</span>
+<h2>5. Types of scans</h2>
+<div class="tbl"><table>
+<tr><th>Template</th><th>What it does</th></tr>
+<tr><td>Host Discovery</td><td>Only finds live devices. Quick.</td></tr>
+<tr><td>Basic Network Scan</td><td>The general scan. Best starting point.</td></tr>
+<tr><td>Advanced Scan</td><td>Fully custom settings.</td></tr>
+<tr><td>Web Application Tests</td><td>Looks for web flaws (XSS, SQLi style issues).</td></tr>
+<tr><td>Credentialed Patch Audit</td><td>Logs in and checks missing patches.</td></tr>
+<tr><td>Malware Scan</td><td>Looks for known malware signs.</td></tr>
+<tr><td>Policy Compliance Auditing</td><td>Checks against standards (CIS, etc.).</td></tr>
+</table></div>
+<h3>Credentialed vs Non-credentialed</h3>
+<div class="tbl"><table>
+<tr><th></th><th>Non-credentialed</th><th>Credentialed</th></tr>
+<tr><td>Meaning</td><td>Scans from outside, no login</td><td>Logs in with an account</td></tr>
+<tr><td>View</td><td>What an outside attacker sees</td><td>What is inside the system</td></tr>
+<tr><td>Accuracy</td><td>More false positives, less detail</td><td>Much more accurate, finds missing patches</td></tr>
+<tr><td>Login methods</td><td>-</td><td>SSH, SMB/Windows, SNMP, database</td></tr>
+</table></div>
+<div class="tip">Use a <b>read-only / least-privilege</b> account for credentialed scans.</div>
+</section>
+
+<section id="sev"><span class="tag">INTERMEDIATE</span>
+<h2>6. Severity and CVSS</h2>
+<p>Each finding gets a severity based on <b>CVSS</b> (Common Vulnerability Scoring System, score 0 to 10).</p>
+<div class="tbl"><table>
+<tr><th>Level</th><th>CVSS score</th><th>Meaning</th></tr>
+<tr><td class="crit">Critical</td><td>9.0 – 10.0</td><td>Fix immediately. Easy to attack, big damage.</td></tr>
+<tr><td class="high">High</td><td>7.0 – 8.9</td><td>Fix soon.</td></tr>
+<tr><td class="med">Medium</td><td>4.0 – 6.9</td><td>Plan a fix.</td></tr>
+<tr><td class="low">Low</td><td>0.1 – 3.9</td><td>Minor risk.</td></tr>
+<tr><td class="info">Info</td><td>0</td><td>Just information (open ports, OS found).</td></tr>
+</table></div>
+<p>Nessus also shows <b>VPR</b> (Vulnerability Priority Rating), a Tenable score that says how likely a bug is to be <b>actually attacked soon</b>. It helps you choose what to fix first.</p>
+</section>
+
+<section id="reports"><span class="tag">INTERMEDIATE</span>
+<h2>7. Reading and using reports</h2>
+<p>Each finding shows:</p>
+<ul>
+<li><b>Name and Plugin ID</b></li><li><b>Description</b> (what the problem is)</li><li><b>Solution</b> (how to fix)</li><li><b>See also</b> (reference links)</li><li><b>CVE / CVSS / VPR</b></li><li><b>Plugin Output</b> (proof: what Nessus saw)</li>
+</ul>
+<h3>Export formats</h3>
+<p><b>PDF, HTML, CSV</b> (for Excel), and <b>.nessus</b> (XML, can be imported into other tools).</p>
+<h3>Simple steps after a scan</h3>
+<ol>
+<li>Sort by severity. Start with Critical and High.</li>
+<li>Check for <b>false positives</b> (Nessus says "vulnerable" but it is not). Verify manually.</li>
+<li>Fix: patch, change settings, close unneeded ports.</li>
+<li><b>Re-scan</b> to confirm it is fixed.</li>
+</ol>
+</section>
+
+<section id="adv"><span class="tag">ADVANCED</span>
+<h2>8. Advanced topics</h2>
+
+<h3>a) Custom policies and scan tuning</h3>
+<ul>
+<li>Create a <b>Policy</b> once and reuse it for many scans.</li>
+<li>Enable or disable <b>plugin families</b> (e.g., turn off DoS plugins on fragile systems).</li>
+<li>Tune <b>speed</b>: max simultaneous checks per host, and hosts at a time. Too fast can crash old devices or slow the network.</li>
+<li>Choose port range: common ports, all 65535 ports, or custom.</li>
+<li>Turn on <b>"Safe checks"</b> to avoid risky tests in production.</li>
+</ul>
+
+<h3>b) Compliance and configuration audits</h3>
+<p>Nessus can check if a system follows a standard, like <b>CIS Benchmarks</b>, <b>PCI-DSS</b>, <b>HIPAA</b>, or <b>DISA STIG</b>, using <code>.audit</code> files. Example: "Is password length at least 14? Is guest account disabled?"</p>
+
+<h3>c) Nessus Agents</h3>
+<p>Small software installed on laptops and servers. They scan <b>locally</b> and report back. Great for remote or roaming laptops, devices behind firewalls, and places where you cannot give credentials.</p>
+
+<h3>d) Scanners, scheduling and automation</h3>
+<ul>
+<li><b>Schedule</b> scans daily, weekly, or monthly.</li>
+<li><b>Email</b> results automatically.</li>
+<li>Use the <b>REST API</b> (with API keys) to launch scans and download reports through scripts (Python is common).</li>
+<li>Scanner placement: put scanners inside each network segment to avoid firewall blocking.</li>
+</ul>
+
+<h3>e) Plugin writing (NASL)</h3>
+<p>Plugins are written in <b>NASL</b> (Nessus Attack Scripting Language). Advanced users write custom checks for their own software.</p>
+
+<h3>f) Integrations</h3>
+<p>Nessus data can feed <b>SIEM</b> tools (Splunk), ticket systems (Jira, ServiceNow), and exploit frameworks (<b>Metasploit</b> can import .nessus files to test findings).</p>
+
+<h3>g) Limits to know</h3>
+<ul>
+<li>It finds <b>known</b> issues only. It cannot find brand-new (zero-day) bugs or logic flaws.</li>
+<li>False positives and false negatives happen.</li>
+<li>It is a <b>scanner</b>, not a full penetration test. Pen testers use it for the first step, then verify and exploit manually.</li>
+<li>Firewalls, IPS, or rate limits can block or distort results.</li>
+</ul>
+
+<h3>h) Vulnerability scan vs Pen test</h3>
+<div class="tbl"><table>
+<tr><th></th><th>Vulnerability scan</th><th>Penetration test</th></tr>
+<tr><td>Goal</td><td>List possible weaknesses</td><td>Prove they can be exploited</td></tr>
+<tr><td>Method</td><td>Mostly automated</td><td>Manual plus tools</td></tr>
+<tr><td>Speed / cost</td><td>Fast, cheaper</td><td>Slower, costlier</td></tr>
+<tr><td>Output</td><td>Long list of findings</td><td>Story of real attack paths</td></tr>
+</table></div>
+</section>
+
+<section id="bp"><span class="tag">ADVANCED</span>
+<h2>9. Best practices</h2>
+<ul>
+<li>Get <b>written permission</b> and define the scope first.</li>
+<li><b>Update plugins</b> before every scan.</li>
+<li>Prefer <b>credentialed scans</b> for accurate results.</li>
+<li>Scan at <b>off-peak hours</b> for production systems.</li>
+<li>Test your policy on a lab system first.</li>
+<li>Scan <b>regularly</b>, not just once.</li>
+<li>Prioritize by risk (VPR, asset importance), not only CVSS.</li>
+<li>Keep reports safe. They are a map of your weaknesses.</li>
+<li>Always <b>re-scan after fixing</b>.</li>
+</ul>
+</section>
+
+<section id="cheat"><span class="tag">QUICK REVISION</span>
+<h2>10. Cheat sheet</h2>
+<div class="tbl"><table>
+<tr><th>Item</th><th>Remember</th></tr>
+<tr><td>Made by</td><td>Tenable</td></tr>
+<tr><td>Web UI</td><td><code>https://localhost:8834</code></td></tr>
+<tr><td>Free version</td><td>Essentials, 16 IPs</td></tr>
+<tr><td>Checks are called</td><td>Plugins (NASL scripts)</td></tr>
+<tr><td>Best accuracy</td><td>Credentialed scan</td></tr>
+<tr><td>Scoring</td><td>CVSS (0–10), VPR</td></tr>
+<tr><td>Compliance files</td><td><code>.audit</code></td></tr>
+<tr><td>Report formats</td><td>PDF, HTML, CSV, .nessus</td></tr>
+<tr><td>Remote devices</td><td>Nessus Agents</td></tr>
+<tr><td>Flow</td><td>Discover → Scan ports → Detect services → Plugins → Report → Fix → Re-scan</td></tr>
+</table></div>
+</section>
+
+<footer>Made for learning ✨ Always scan only with permission.</footer>
+</div></body></html>
